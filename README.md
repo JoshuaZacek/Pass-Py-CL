@@ -13,4 +13,4 @@ On your command line (Terminal on macOS and Command Prompt on Windows) and drag 
 To see a list of available commands, just do /commands.
 
 **Current Version: Beta 1**<br/>
-**Please Note:** On line **96** and **97** your will need to enter your own email credientials.
+**Please Note:** On line **96** and **97** you will need to edit the script and enter your own email credientials.
