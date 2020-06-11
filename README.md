@@ -1,5 +1,5 @@
 # Pass&Py CL
-Pass&Py is an account authentication program that runs in the command line.
+Pass&Py CL is an account authentication program that runs in the command line.
 ## Features
 **Two-Factor Authentication** (via email) - requires a numerical code that is sent to your email before logging into your account. Can be four to ten digits long.<br/>
 **Passcode** - a secound numerical password which is required when logging into your account. Can be 4 or 6 digits long.
