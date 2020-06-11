@@ -11,3 +11,5 @@ Yow will need to download and install the latest version of Python from https://
 ## How To Use Pass&Py CL
 On your command line (Terminal on macOS and Command Prompt on Windows) and drag **Pass&Py.py** onto the command line.<br/>
 To see a list of available commands, just do /commands.
+
+**Current Version: Beta 1**
