@@ -11,6 +11,7 @@ Yow will need to download and install the latest version of Python from https://
 We recommend you don't use Pass&Py CL with older versions of Python.
 ## How To Use Pass&Py CL
 On your Terminal, type ```python``` and drag the **Pass&Py.py** onto the command line.<br/><br/>
+**IMPORTANT:** On Windows, you need to add Python to the Windows Path. A tutorial on how to do this can be found here: https://geek-university.com/python/add-python-to-the-windows-path/ <br/><br/>
 ![CommandLineHelp](https://s7.gifyu.com/images/CommandLineHelp.gif)<br/><br/>
 To register for an account, type ```/register [firstname] [surname] [username] [email] [phone] [password] [confirm password]```.<br/>
 To login to your account, type ```/login [username or email] [password]```<br/>
