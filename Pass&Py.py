@@ -1,14 +1,14 @@
 #=========================================PASS&PY CL=========================================
-#=========================================UPDATE CHANGELOG ARCHIVE=========================================
-#PASS&PY CL BETA 1 BUILD 2020-ZF-AA - PASS&PY CL CREATED
 #=========================================IMPORTS=========================================
 import sys
 import csv
 import os
 import random
 import smtplib
+import platform
 import rlcompleter
-import readline
+if platform.system() == "Darwin" or platform.system() == "Linux":
+	import readline
 import re
 import hashlib
 import base64
@@ -72,20 +72,7 @@ def columns():
 #=========================================NUMBER GENERATOR=========================================
 def numbergenerate(length):
 	global number
-	if length == 4:
-		number=random.randint(1000,9999)
-	if length == 5:
-		number=random.randint(10000,99999)
-	if length == 6:
-		number=random.randint(100000,999999)
-	if length == 7:
-		number=random.randint(1000000,9999999)
-	if length == 8:
-		number=random.randint(10000000,99999999)
-	if length == 9:
-		number=random.randint(100000000,999999999)
-	if length == 10:
-		number=random.randint(1000000000,9999999999)
+	number=random.randrange(10**(length-1), (10**length)-1)
 #=========================================EMAIL=========================================
 def sendemail(body,subject,sendto):
 	with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
@@ -207,31 +194,31 @@ while True:
 					columns()
 					username=rawcommand[1]
 					password=rawcommand[2]
-					password=hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000)
-					password=base64.b64encode(password)
-					password = password.decode('utf-8')
+					password=base64.b64encode(hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000))
 					if len(rawcommand) > 3:
 						print("ERROR: TOO MANY PARAMETERS")
 					else:
 						if (username in column0) or (username in column5):
 							for k in range(len(column0)):
-								if column0[k] == username and column1[k] == "b'"+password+"'" or column5[k] == username and column1[k] == "b'"+password+"'":
+								if column0[k] == username and column1[k] == "b'"+password.decode('utf-8')+"'" or column5[k] == username and column1[k] == "b'"+password.decode('utf-8')+"'":
 									username=column0[k]
 									if column0[k] == username and column8[k] == "1":
-										print("THIS ACCOUNT HAS BEEN DISABLED. YOU HAVE BEEN LOGGED OUT.")
+										print("THIS ACCOUNT HAS BEEN BANNED. YOU HAVE BEEN LOGGED OUT.")
 										programstatus="notloggedin"
 										break
 									else:
 										if column0[k] == username and column9[k] == "1":
 											accountkeyfromdatabase=column3[k]
-											print("YOUR ACCOUNT IS HAS BEEN SECURITY RESTRICTED.\nPLEASE ENTER YOUR ACCOUNT KEY.")
+											print("YOUR ACCOUNT IS HAS BEEN SECURITY LOCKED.\nPLEASE ENTER YOUR ACCOUNT KEY.")
 											accountkeyfromuser=input()
 											if accountkeyfromuser == accountkeyfromdatabase:
-												print("YOUR SECURITY RESTRICTIONS HAVE BEEN LIFTED.")
+												print("YOUR SECURITY LOCK HAVE BEEN LIFTED.")
 												cellmodifier(9,0,k)
+											elif accountkeyfromuser.lower() == "/exit":
+												sys.exit("")
 											else:
 												cellmodifier(8,1,k)
-												print("ERROR: INCORRECT ACCOUNT KEY\nYOUR ACCOUNT HAS BEEN DISABLED.")
+												print("ERROR: INCORRECT ACCOUNT KEY\nYOUR ACCOUNT HAS BEEN BANNED.")
 											break
 										else:
 											if column7[k] == "1":
@@ -363,7 +350,7 @@ while True:
 									print("YOU HAVE DELETED YOUR ACCOUNT. YOU HAVE BEEN LOGGED OUT.")
 									break
 								elif option == "n":
-									print("OPERATION HALTED.")
+									print("OPERATION CANCELLED.")
 									break
 								else:
 									print("PLEASE ENTER Y (YES) OR N (NO).")
@@ -510,54 +497,81 @@ while True:
 						if victim == username:
 							print("ERROR: YOU CAN NOT EXECUTE ADMIN COMMANDS ON YOURSELF.")
 						else:
-							if action == "disableaccount":
+							if action == "ban":
 								if victim in column0:
 									for a in range(len(column0)):
 										if victim == column0[a]:
 											if column8[a] == "0":
 												if column15[a] == "1":
-													print("ERROR: THIS USER IS AN ADMIN.")
+													print("ERROR: THIS USER IS AN ADMIN")
 												else:
 													cellmodifier(8,1,a)
-													print("SUCCESSFULLY DISABLED ACCOUNT.")
+													print("SUCCESSFULLY BANNED ACCOUNT")
 											else:
-												print("ERROR: THIS ACCOUNT IS ALREADY DISABLED.")
+												print("ERROR: THIS ACCOUNT IS ALREADY BANNED")
 									else:
 										pass
 								else:
 									print("ERROR: USERNAME DOESN'T EXIST")
-							elif action == "enableaccount":
+							elif action == "unban":
 								if victim in column0:
 									for a in range(len(column0)):
 										if victim == column0[a]:
 											if column8[a] == "1":
 												cellmodifier(8,0,a)
-												print("SUCCESSFULLY ENABLED ACCOUNT.")
+												print("SUCCESSFULLY UNBANNED ACCOUNT")
 											else:
-												print("ERROR: THIS ACCOUNT IS ALREADY ENABLED")
+												print("ERROR: THIS ACCOUNT IS ALREADY UNBANNED")
 									else:
 										pass
 								else:
 									print("ERROR: USERNAME DOESN'T EXIST")
-							elif action == "restrictaccount":
+							elif action == "lock":
 								if victim in column0:
-									if column9[a] == "0":
-										if victim == column0[a]:
-											cellmodifier(9,1,a)
-											print("SUCCESSFULLY RESTRICTED ACCOUNT.")
-									else:
-										print("ERROR: THIS ACCOUNT IS ALREADY RESTRICTED")
+									for a in range(len(column0)):
+										if column9[a] == "0":
+											if victim == column0[a]:
+												cellmodifier(9,1,a)
+												print("SUCCESSFULLY LOCKED ACCOUNT")
+										else:
+											print("ERROR: THIS ACCOUNT IS ALREADY LOCKED")
 								else:
 									print("ERROR: USERNAME DOESN'T EXIST")
-							elif action == "removerestrictions":
+							elif action == "unlock":
 								if victim in column0:
 									for a in range(len(column0)):
 										if victim == column0[a]:
 											if column9[a] == "1":
 												cellmodifier(9,0,a)
-												print("SUCCESSFULLY REMOVED RESTRICTIONS FROM ACCOUNT.")
+												print("SUCCESSFULLY UNLOCKED ACCOUNT")
 											else:
-												print("ERROR: THIS ACCOUNT IS ALREADY NOT RESTRICTED.")
+												print("ERROR: THIS ACCOUNT IS ALREADY UNLOCKED")
+									else:
+										pass
+								else:
+									print("ERROR: USERNAME DOESN'T EXIST")
+							elif action == "grant":
+								if victim in column0:
+									for a in range(len(column0)):
+										if victim == column0[a]:
+											if column15[a] == "0":
+												cellmodifier(15,1,a)
+												print("SUCCESSFULLY GRANTED ADMINISTRATIVE PRIVILEGES")
+											else:
+												print("ERROR: THIS ACCOUNT ALREADY HAS ADMINISTRATIVE PRIVILEGES")
+									else:
+										pass
+								else:
+									print("ERROR: USERNAME DOESN'T EXIST")
+							elif action == "revoke":
+								if victim in column0:
+									for a in range(len(column0)):
+										if victim == column0[a]:
+											if column15[a] == "1":
+												cellmodifier(15,0,a)
+												print("SUCCESSFULLY REOVKED ADMINISTRATIVE PRIVILEGES")
+											else:
+												print("ERROR: THIS IS NOT AN ADMINISTRATIVE ACCOUNT")
 									else:
 										pass
 								else:
@@ -568,14 +582,18 @@ while True:
 										if victim == column0[a]:
 											columns()
 											if column9[a] == "0":
-												restrictstatus="NOT RESTRICTED"
+												restrictstatus="NOT LOCKED"
 											else:
-												restrictstatus="IS RESTRICTED"
+												restrictstatus="LOCKED"
 											if column8[a] == "0":
-												disablestatus="NOT DISABLED"
+												disablestatus="NOT BANNED"
 											else:
-												disablestatus="IS DISABLED"
-											print("USER "+victim+" "+restrictstatus+" AND "+disablestatus+".")
+												disablestatus="BANNED"
+											if column15[a] == "0":
+												adminstatus="IS NOT AN ADMIN"
+											else:
+												adminstatus="IS AN ADMIN"
+											print("USER "+victim+" IS "+restrictstatus+", IS "+disablestatus+" AND "+adminstatus+".")
 									else:
 										pass
 								else:
