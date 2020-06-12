@@ -13,8 +13,8 @@ import re
 import hashlib
 import base64
 #=========================================STARTUP=========================================
-clversion="Beta 2"
-clbuild="2020-ZF-AB"
+clversion="Beta 3"
+clbuild="2020-ZF-AB-B"
 cldirectory = os.path.dirname(os.path.realpath(__file__))
 print("Welcome to Pass&Py CL "+clversion+" Build "+clbuild)
 #=========================================DOES DATABASE EXIST?=========================================
@@ -22,7 +22,7 @@ try:
 	f = open(os.path.join(cldirectory,'passandpy.csv'))
 	f.close()
 except FileNotFoundError:
-	header = ['Username', 'Password', 'Recovery Key', 'Firstname', 'Surname', 'Email', 'Phone', '2FA', 'Banned', 'Locked', 'Passcode','2FA length','Passcode Length','Ban Note','Failed Attempts','Admin','Verified?','.\n']
+	header = ['Username', 'Password', 'Recovery Key', 'Firstname', 'Surname', 'Email', 'Phone', '2FA', 'Banned', 'Locked', 'Passcode','2FA length','Passcode Length','Ban Note','Failed Attempts','Admin','Verified?','.\r\n']
 	with open(os.path.join(cldirectory,'passandpy.csv'), 'w') as database_file:
 		database_writer = csv.writer(database_file)
 		database_writer.writerow(header)
@@ -30,11 +30,12 @@ except FileNotFoundError:
 #=========================================FUNCTIONS=========================================
 #=========================================CLOUMNS=========================================
 def columns():
-	passandpydatabase=[]
-	with open(os.path.join(cldirectory,'passandpy.csv'))as csvfile:
-		reader = csv.reader(csvfile)
-		for row in reader:
-			passandpydatabase.append(row)
+	passandpydatabase = []
+	csvfileread = [line for line in csv.reader(open(os.path.join(cldirectory,'passandpy.csv'),'r'))]
+	for line in csvfileread:
+		if line == []:
+			continue
+		passandpydatabase.append(line)
 	global column0
 	global column1
 	global column2
@@ -398,7 +399,7 @@ while True:
 												password=base64.b64encode(password)
 												numbergenerate(6)
 #=========================================ACCOUNT STORAGE=========================================
-												accountrow=[username,password,number,firstname,lastname,email,phone,0,0,0,0,0,0,0,0,isthisuseradmin,0,".\n"]
+												accountrow=[username,password,number,firstname,lastname,email,phone,0,0,0,0,0,0,0,0,isthisuseradmin,0,".\r\n"]
 												with open(os.path.join(cldirectory,'passandpy.csv'), 'a') as database_file:
 													database_writer = csv.writer(database_file)
 													database_writer.writerow(accountrow)
