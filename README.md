@@ -15,6 +15,6 @@ On your Terminal, type ```python``` and drag the **Pass&Py.py** onto the command
 ![CommandLineHelp](https://s7.gifyu.com/images/CommandLineHelp.gif)<br/><br/>
 To register for an account, type ```/register [firstname] [surname] [username] [email] [phone] [password] [confirm password]```.<br/>
 To login to your account, type ```/login [username or email] [password]```<br/>
-For more commands, do ```/commands``` while Pass&Py CL is runnung.<br/>
+For more commands, do ```/commands``` while Pass&Py CL is running.<br/>
 
 **Please Note:** On lines **96** and **97**, you will need to edit the script and enter your own email credientials.
