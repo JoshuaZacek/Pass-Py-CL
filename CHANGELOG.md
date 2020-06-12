@@ -6,3 +6,5 @@ Pass&Py CL created.
 Number generation shortened.</br>
 Added ```revoke``` and ```grant``` commands to admin tools.</br>
 Improved admin tools commands.</br>
+### Pass&Py CL Beta 3
+Fixed a bug where blank lines in the database would cause Missing Parameters error.
