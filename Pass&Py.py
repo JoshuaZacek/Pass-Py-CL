@@ -13,8 +13,8 @@ import re
 import hashlib
 import base64
 #=========================================STARTUP=========================================
-clversion="Beta 1"
-clbuild="2020-ZF-AA"
+clversion="Beta 2"
+clbuild="2020-ZF-AB"
 cldirectory = os.path.dirname(os.path.realpath(__file__))
 print("Welcome to Pass&Py CL "+clversion+" Build "+clbuild)
 #=========================================DOES DATABASE EXIST?=========================================
