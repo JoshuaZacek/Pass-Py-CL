@@ -28,7 +28,6 @@ SMTP Port: 587<br/><br/>
 **Yahoo**<br/>
 SMTP Server: smtp.mail.yahoo.com<br/>
 SMTP Port: 465 or 587<br/><br/>
-
 If your email provider wasn't listed, you can look for it here: https://www.smtpsoftware.com/smtp-server-list/
 
 
