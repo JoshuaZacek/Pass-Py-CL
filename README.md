@@ -17,7 +17,7 @@ To register for an account, type ```/register [first name] [surname] [username] 
 To login to your account, type ```/login [username or email] [password]```<br/>
 For more commands, do ```/help``` while Pass&Py CL is running.<br/>
 
-**IMPORTANT:** For Two-Factor Authentication to work, you will need to edit the script and enter your own email credentials. You will then have to enter a SMTP Server and SMTP Port. You can find a list of servers and ports for poular email providers below.<br/>
+**IMPORTANT:** For Two-Factor Authentication to work, you will need to edit the script and enter your own email credentials. You will then have to enter a SMTP Server and SMTP Port. You can find a list of servers and ports for popular email providers below.<br/>
 
 **Gmail**<br/>
 SMTP Server: smtp.gmail.com<br/>
