@@ -15,6 +15,20 @@ On your Terminal, type ```python``` and drag the **Pass&Py.py** onto the command
 ![CommandLineHelp](https://s7.gifyu.com/images/CommandLineHelp.gif)<br/><br/>
 To register for an account, type ```/register [first name] [surname] [username] [email] [phone] [password] [confirm password]```.<br/>
 To login to your account, type ```/login [username or email] [password]```<br/>
-For more commands, do ```/commands``` while Pass&Py CL is running.<br/>
+For more commands, do ```/help``` while Pass&Py CL is running.<br/>
 
-**Please Note:** On lines **96** and **97**, you will need to edit the script and enter your own email credentials.
+**IMPORTANT:** For Two-Factor Authentication to work, you will need to edit the script and enter your own email credentials. You will then have to enter a SMTP Server and SMTP Port. You can find a list of servers and ports for poular email providers below.<br/>
+
+**Gmail**<br/>
+SMTP Server: smtp.gmail.com<br/>
+SMTP Port: 587<br/><br/>
+**Outlook**<br/>
+SMTP Server: smtp.office365.com<br/>
+SMTP Port: 587<br/><br/>
+**Yahoo**<br/>
+SMTP Server: smtp.mail.yahoo.com<br/>
+SMTP Port: 465 or 587<br/><br/>
+
+If your email provider wasn't listed, you can look for it here: https://www.smtpsoftware.com/smtp-server-list/
+
+
