@@ -13,3 +13,7 @@ Added error handling.</br>
 Added version requirements.</br>
 Changed /commands to /help.</br>
 Added module descriptions.</br>
+### Pass&Py CL Beta 5
+Added /forgot.</br>
+Minor changes to the structure of the code.</br>
+Fixed bug where all passcodes wouldn't work.</br>
