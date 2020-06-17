@@ -28,8 +28,8 @@ try:
  				sys.exit()
  			elif desicion.lower() == "y":
  				break
-	clversion="Beta 4"
-	clbuild="2020-ZF-AG"
+	clversion="Beta 5"
+	clbuild="2020-ZF-AG-A"
 	cldirectory = os.path.dirname(os.path.realpath(__file__))
 	print("Welcome to Pass&Py CL "+clversion+" Build "+clbuild)
 #=========================================DOES DATABASE EXIST?=========================================
@@ -91,10 +91,10 @@ try:
 		number=random.randrange(10**(length-1), (10**length)-1)
 #=========================================EMAIL=========================================
 	def sendemail(body,subject,sendto):
-		smtp_port=None
-		smtp_server='CHANGE'
-		sender_email="CHANGE"
-		sender_password="CHANGE"
+		smtp_port=587
+		smtp_server='smtp.gmail.com'
+		sender_email="passandpy@gmail.com"
+		sender_password="joshjosh22"
 		with smtplib.SMTP(smtp_server, smtp_port) as smtp:
 			smtp.ehlo()
 			smtp.starttls()
@@ -135,7 +135,7 @@ try:
 					else:
 						pass
 #=========================================CSV CELL EDITER=========================================
-	def cellmodifier(column,value,letter):
+	def information_modification(column,value,letter):
 		csvfilemodified = []
 		csvfileread = [line for line in csv.reader(open(os.path.join(cldirectory,'passandpy.csv'),'r'))]
 		for line in csvfileread:
@@ -162,8 +162,8 @@ try:
 								print("ERROR: YOUR PASSCODE MUST BE "+str(passcodelength)+" DIGITS LONG.")
 							else:
 								if passcodeconfirm == passcode:
-									cellmodifier(12,passcodelength,k)
-									cellmodifier(10,passcodeconfirm,k)
+									information_modification(12,passcodelength,k)
+									information_modification(10,passcodeconfirm,k)
 									if state == "enable":
 										print("PASSCODE ENABLED SUCCESSFULLY.")
 									elif state == "modified":
@@ -175,8 +175,18 @@ try:
 					print("ERROR: NOT A VALID OPTION. CHOOSE BETWEEN 4 OR 6.")
 			except ValueError:
 				print("ERROR: NOT AN INTERGER")
+	def newpassword():
+		newpassword=input("ENTER NEW PASSWORD: ")
+		confirmnewpassword=input("CONFRIM NEW PASSWORD: ")
+		if newpassword == confirmnewpassword:
+			confirmnewpassword=hashlib.pbkdf2_hmac('sha256', confirmnewpassword.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000)
+			confirmnewpassword=base64.b64encode(confirmnewpassword)
+			information_modification(1,confirmnewpassword,k)
+			print("PASSWORD MODIFIED")
+		else:
+			print("ERROR: PASSWORDS DO NOT MATCH")
 #=========================================COMMANDS=========================================
-	validcommands = ["/register","/login","/logout","/exit","/about","/admin","/help","/account","/modify","/settings"] #list of valid commands
+	validcommands = ["/register","/login","/logout","/exit","/about","/admin","/help","/account","/modify","/settings","/forgot"] #list of valid commands
 	programstatus = "notloggedin"
 	while True:
 		rawcommand=input()
@@ -233,19 +243,19 @@ try:
 												accountkeyfromuser=input()
 												if accountkeyfromuser == accountkeyfromdatabase:
 													print("YOUR SECURITY LOCK HAVE BEEN LIFTED.")
-													cellmodifier(9,0,k)
+													information_modification(9,0,k)
 												elif accountkeyfromuser.lower() == "/exit":
 													sys.exit()
 												else:
-													cellmodifier(8,1,k)
+													information_modification(8,1,k)
 													print("ERROR: INCORRECT ACCOUNT KEY\nYOUR ACCOUNT HAS BEEN BANNED.")
 												break
 											else:
 												if column7[k] == "1":
 													numbergenerate(int(column11[k]))
-													sendemail("Your Two-Factor Authentication code is: "+str(number),"[Pass&Py] Two-Factor Authentication",column5[k])
+													sendemail("Your Two-Factor Authentication code is "+str(number),"[Pass&Py] Two-Factor Authentication",column5[k])
 													user2facode=input("A CODE HAS BEEN SENT TO YOUR EMAIL. PLEASE ENTER THE CODE TO LOGIN. ")
-													if int(user2facode) == int(number):
+													if user2facode == str(number):
 														columns()
 														print("YOU ARE LOGGED IN AS: "+username)
 														if column15[k] == "1":
@@ -255,16 +265,16 @@ try:
 															programstatus="loggedin"
 														if column16[k] == "0":
 															print("NOTICE: YOUR ACCOUNT IS NOT VERIFIED. DO /ACCOUNT VERIFY.")
-														cellmodifier(14,0,k)
+														information_modification(14,0,k)
 														break
 													else:
 														print("ERROR: TWO-FACTOR AUTHENTICATION FAILED, INCORRECT CODE. YOU HAVE BEEN LOGGED OUT.")
 														programstatus="notloggedin"
 														break
 												else:
-													if str(column10[k]) != "0":
+													if column10[k] != "0":
 														userpasscode=input("ENTER PASSCODE: ")
-														if userpasscode!=str(column10[k]):
+														if userpasscode!=column10[k]:
 															print("ERROR: LOGIN FAILED, INCORRECT PASSCODE. YOU HAVE BEEN LOGGED OUT.")
 															break
 													columns()
@@ -276,7 +286,7 @@ try:
 														programstatus="loggedin"
 													if column16[k] == "0":
 														print("NOTICE: YOUR ACCOUNT IS NOT VERIFIED. DO /ACCOUNT VERIFY.")
-													cellmodifier(14,0,k)
+													information_modification(14,0,k)
 													break
 								else:
 									print("ERROR: INCORRECT PASSWORD")
@@ -308,8 +318,8 @@ try:
 												try:
 													length2fa=int(length2fa)
 													if 4 <= length2fa <= 10:
-														cellmodifier(7,1,k)
-														cellmodifier(11,length2fa,k)
+														information_modification(7,1,k)
+														information_modification(11,length2fa,k)
 														print("TWO-FACTOR AUTHENTICATION ENABLED")
 														break
 													else:
@@ -320,7 +330,7 @@ try:
 									if column7[k] == "0":
 										print("ERROR: TWO-FACTOR AUTHENTICATION IS ALREADY DISABLED.")
 									else:
-										cellmodifier(7,0,k)
+										information_modification(7,0,k)
 										print("TWO-FACTOR AUTHENTICATION DISABLED")
 								else:
 									print("ERROR: INVALID PARAMETERS")
@@ -334,7 +344,7 @@ try:
 									if column10[k] == "0":
 										print("ERROR: PASSCODE IS ALREADY DISABLED")
 									else:
-										cellmodifier(10,0,k)
+										information_modification(10,0,k)
 										print("PASSCODE DISABLED SUCCESSFULLY.")
 							else:
 								print("ERROR: INVALID PARAMETER")
@@ -354,18 +364,18 @@ try:
 							if verifyordelete == "verify":
 								numbergenerate(8)
 								number = str(number)
-								sendemail("To verify your account, enter this 8 digit code: "+number,"[Pass&Py] Verify Your Account",column5[k])
+								sendemail("Your account verification code is "+number,"[Pass&Py] Verify Your Account",column5[k])
 								userverifycode=input("ENTER THE CODE SENT TO YOUR EMAIL.")
 								if userverifycode == number:
 									print("YOUR ACCOUNT IS NOW VERIFIED.")
-									cellmodifier(16,1,k)
+									information_modification(16,1,k)
 								else:
 									print("ERROR: VERIFICTION FAILED, INCORRECT CODE")
 							elif verifyordelete == "delete":
 								while True:
 									option = input("WARNING: ARE YOU SURE YOU WANT TO PROCEED? THIS CAN NOT BE REVERSED. (Y/N)").lower()
 									if option == "y":
-										cellmodifier(8,1,k)
+										information_modification(8,1,k)
 										programstatus="notloggedin"
 										print("YOU HAVE DELETED YOUR ACCOUNT. YOU HAVE BEEN LOGGED OUT.")
 										break
@@ -445,8 +455,8 @@ try:
 								if currentemail == column5[k]:
 									newemail=input("ENTER NEW EMAIL: ")
 									if(re.search('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$',newemail)):
-										cellmodifier(5,newemail,k)
-										cellmodifier(16,0,k)
+										information_modification(5,newemail,k)
+										information_modification(16,0,k)
 										print("EMAIL MODIFIED")
 										print("NOTICE: YOUR ACCOUNT IS NOT VERIFIED. DO /ACCOUNT VERIFY.")
 									else:
@@ -456,37 +466,27 @@ try:
 							else:
 								if modify == "phone":
 									newphone=input("ENTER NEW PHONE NUMBER: ")
-									cellmodifier(6, newphone,k)
+									information_modification(6, newphone,k)
 									print("PHONE NUMBER MODIFIED")
 								else:
 									if modify == "name":
 										firstname=input("ENTER FIRSTNAME: ")
 										surname=input("ENTER SURNAME: ")
-										cellmodifier(3, firstname,k)
-										cellmodifier(4, surname,k)
+										information_modification(3, firstname,k)
+										information_modification(4, surname,k)
 										print("NAME MODIFIED")
 									else:
 										if modify == "password":
 											currentpassword=input("ENTER CURRENT PASSWORD: ")
-											currentpassword=hashlib.pbkdf2_hmac('sha256', currentpassword.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000)
-											currentpassword=base64.b64encode(currentpassword)
-											currentpassword.decode('utf-8')
+											currentpassword=base64.b64encode(hashlib.pbkdf2_hmac('sha256', currentpassword.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000))
 											if str(currentpassword) == str(column1[k]):
-												newpassword=input("ENTER NEW PASSWORD: ")
-												confirmnewpassword=input("CONFRIM NEW PASSWORD: ")
-												if newpassword == confirmnewpassword:
-													confirmnewpassword=hashlib.pbkdf2_hmac('sha256', confirmnewpassword.encode('utf-8'), b'\xff\x15\t\xcfx4H\x9a\xa0B.I\xcb\xae\x96\xd7\xa3x\xcc\xc9\xedd\xc8{I\x0b>\x9b43[\xbd', 100000)
-													confirmnewpassword=base64.b64encode(confirmnewpassword)
-													cellmodifier(1,confirmnewpassword,k)
-													print("PASSWORD MODIFIED")
-												else:
-													print("ERROR: PASSWORDS DO NOT MATCH")
+												newpassword()
 											else:
 												print("ERROR: THIS IS NOT YOUR CURRENT PASSWORD")
 										else:
 											if modify=="accountkey":
 												numbergenerate(6)
-												cellmodifier(2, number,k)
+												information_modification(2, number,k)
 												print("YOUR NEW ACCOUNT KEY IS: "+str(number))
 											else:
 												if modify=="passcode":
@@ -525,7 +525,7 @@ try:
 													if column15[a] == "1":
 														print("ERROR: THIS USER IS AN ADMIN")
 													else:
-														cellmodifier(8,1,a)
+														information_modification(8,1,a)
 														print("SUCCESSFULLY BANNED ACCOUNT")
 												else:
 													print("ERROR: THIS ACCOUNT IS ALREADY BANNED")
@@ -538,7 +538,7 @@ try:
 										for a in range(len(column0)):
 											if victim == column0[a]:
 												if column8[a] == "1":
-													cellmodifier(8,0,a)
+													information_modification(8,0,a)
 													print("SUCCESSFULLY UNBANNED ACCOUNT")
 												else:
 													print("ERROR: THIS ACCOUNT IS ALREADY UNBANNED")
@@ -551,7 +551,7 @@ try:
 										for a in range(len(column0)):
 											if column9[a] == "0":
 												if victim == column0[a]:
-													cellmodifier(9,1,a)
+													information_modification(9,1,a)
 													print("SUCCESSFULLY LOCKED ACCOUNT")
 											else:
 												print("ERROR: THIS ACCOUNT IS ALREADY LOCKED")
@@ -562,7 +562,7 @@ try:
 										for a in range(len(column0)):
 											if victim == column0[a]:
 												if column9[a] == "1":
-													cellmodifier(9,0,a)
+													information_modification(9,0,a)
 													print("SUCCESSFULLY UNLOCKED ACCOUNT")
 												else:
 													print("ERROR: THIS ACCOUNT IS ALREADY UNLOCKED")
@@ -575,7 +575,7 @@ try:
 										for a in range(len(column0)):
 											if victim == column0[a]:
 												if column15[a] == "0":
-													cellmodifier(15,1,a)
+													information_modification(15,1,a)
 													print("SUCCESSFULLY GRANTED ADMINISTRATIVE PRIVILEGES")
 												else:
 													print("ERROR: THIS ACCOUNT ALREADY HAS ADMINISTRATIVE PRIVILEGES")
@@ -588,7 +588,7 @@ try:
 										for a in range(len(column0)):
 											if victim == column0[a]:
 												if column15[a] == "1":
-													cellmodifier(15,0,a)
+													information_modification(15,0,a)
 													print("SUCCESSFULLY REOVKED ADMINISTRATIVE PRIVILEGES")
 												else:
 													print("ERROR: THIS IS NOT AN ADMINISTRATIVE ACCOUNT")
@@ -624,6 +624,39 @@ try:
 							print("ERROR: MISSING PARAMETERS")
 					else:
 						print("ERROR: YOU ARE NOT AN ADMIN")
+			if command == "/forgot":
+				columns()
+				if programstatus == "loggedin" or programstatus == "loggedinadmin":
+					print("ERROR: YOU NEED TO LOGGED OUT TO USE THIS COMMAND")
+				else:
+					try:
+						username=rawcommand[1]
+						if len(rawcommand) > 2:
+							print("ERROR: TOO MANY PARAMETERS")
+						else:
+							if username in column0:
+								for k in range(len(column0)):
+									if username == column0[k]:
+										if column16[k] == "0":
+											account_key_by_user=input("ENTER YOUR ACCOUNT KEY: ")
+											if account_key_by_user == column2[k]:
+												newpassword()
+											else:
+												print("ERROR: INCORRECT ACCOUNT KEY")
+												counter()	
+										else:
+											numbergenerate(6)
+											sendemail('Your Account Temporary Account Key is '+str(number),'[Pass&Py] Temporary Account Key',column5[k])
+											number_code_by_user=input("ENTER THE CODE SENT TO YOUR EMAIL: ")
+											if number_code_by_user == str(number):
+												newpassword()
+											else:
+												print("ERROR: INCORRECT CODE")
+												counter()
+							else:
+								print("ERROR: USERNAME DOESN'T EXIST")
+					except IndexError:
+						print("ERROR: MISSING PARAMETERS")
 #=========================================INVALID COMMANDS=========================================	
 		else:
 			if command[:1] == "/":
@@ -634,7 +667,7 @@ try:
 except socket.gaierror:
 	print("ERROR: FAILED TO CONNECT. HAVE YOU CHANGED SMTP ADDRESS YET?")
 except SMTPAuthenticationError:
-	print("ERROR: FAILED TO AUTHENTICATE. HAVE TO CHANGED EMAIL, PASSWORD AND SMTP PORT YET?")
+	print("ERROR: FAILED TO AUTHENTICATE. HAVE YOU CHANGED EMAIL, PASSWORD AND SMTP PORT YET?")
 except Exception:
 	while True:
 		desicion=input("AN UNKNOWN ERROR OCCURED. WOULD YOU LIKE TO SEE ADVANCED INFORMATION? (Y/N)")
