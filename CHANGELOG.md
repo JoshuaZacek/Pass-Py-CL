@@ -11,9 +11,9 @@ Fixed a bug where blank lines in the database would cause Missing Parameters err
 ### Pass&Py CL Beta 4
 Added error handling.</br>
 Added version requirements.</br>
-Changed /commands to /help.</br>
+Changed ```/commands``` to /help.</br>
 Added module descriptions.</br>
 ### Pass&Py CL Beta 5
-Added /forgot.</br>
+Added ```/forgot```.</br>
 Minor changes to the structure of the code.</br>
 Fixed bug where all passcodes wouldn't work.</br>
