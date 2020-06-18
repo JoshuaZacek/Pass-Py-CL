@@ -17,3 +17,5 @@ Added module descriptions.</br>
 Added ```/forgot```.</br>
 Minor changes to the structure of the code.</br>
 Fixed bug where all passcodes wouldn't work.</br>
+### Pass&Py CL Beta 6
+Added ```/forgot``` in the help command.</br>
