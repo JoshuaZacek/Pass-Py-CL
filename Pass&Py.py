@@ -28,8 +28,8 @@ try:
  				sys.exit()
  			elif desicion.lower() == "y":
  				break
-	clversion="Beta 5"
-	clbuild="2020-ZF-AG-A"
+	clversion="Beta 6"
+	clbuild="2020-ZF-AG-B"
 	cldirectory = os.path.dirname(os.path.realpath(__file__))
 	print("Welcome to Pass&Py CL "+clversion+" Build "+clbuild)
 #=========================================DOES DATABASE EXIST?=========================================
@@ -92,9 +92,9 @@ try:
 #=========================================EMAIL=========================================
 	def sendemail(body,subject,sendto):
 		smtp_port=587
-		smtp_server='smtp.gmail.com'
-		sender_email="passandpy@gmail.com"
-		sender_password="joshjosh22"
+		smtp_server='SERVER'
+		sender_email="EMAIL"
+		sender_password="PASSWORD"
 		with smtplib.SMTP(smtp_server, smtp_port) as smtp:
 			smtp.ehlo()
 			smtp.starttls()
@@ -200,7 +200,7 @@ try:
 #=========================================COMMAND HELP=========================================
 			if command=="/help":
 				if programstatus == "notloggedin":
-					print("-- /login [username/email] [password]\n\n-- /register [firstname] [surname] [username] [email] [phone] [password] [confirmpassword]\n\n-- /exit\n\n-- /about")
+					print("-- /login [username/email] [password]\n\n-- /register [firstname] [surname] [username] [email] [phone] [password] [confirmpassword]\n\n-- /forgot [username]\n\n-- /exit\n\n-- /about")
 				if programstatus == "loggedin":
 					print("-- /logout\n\n-- /modify [password/email/phone/email/passcode/accountkey]\n\n-- /settings [2fa/passcode] [enable/disable]\n\n-- /account [delete/verify]")
 				if programstatus == "loggedinadmin":
