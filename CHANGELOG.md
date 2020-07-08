@@ -19,3 +19,5 @@ Minor changes to the structure of the code.</br>
 Fixed bug where all passcodes wouldn't work.</br>
 ### Pass&Py CL Beta 6
 Added ```/forgot``` in the help command.</br>
+### Pass&Py CL Release 1
+Pass&Py is now officialy released!</br>
