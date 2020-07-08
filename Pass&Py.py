@@ -28,8 +28,8 @@ try:
  				sys.exit()
  			elif desicion.lower() == "y":
  				break
-	clversion="Beta 6"
-	clbuild="2020-ZF-AG-B"
+	clversion="Release 1"
+	clbuild="2020-ZG-ZX"
 	cldirectory = os.path.dirname(os.path.realpath(__file__))
 	print("Welcome to Pass&Py CL "+clversion+" Build "+clbuild)
 #=========================================DOES DATABASE EXIST?=========================================
